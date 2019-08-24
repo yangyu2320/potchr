@@ -1,6 +1,8 @@
 package com.potchr.data.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
@@ -12,11 +14,16 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.lookup.SingleDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager;
+import org.springframework.orm.jpa.persistenceunit.PersistenceUnitManager;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +39,7 @@ import java.util.Map;
  * <p>创建日期：2019/7/11 16:05</p>
  */
 @Configuration
-@EnableJpaRepositories(basePackages = { "com.potchr.data.user" }, entityManagerFactoryRef = "userEntityManager", transactionManagerRef = "userTransactionManager")
+@EnableJpaRepositories(basePackages = "com.potchr.data.user", entityManagerFactoryRef = "userEntityManager", transactionManagerRef = "userTransactionManager")
 public class JpaConfig
 {
 	@Value("${spring.datasource.user.driver-class-name}")
@@ -48,23 +55,29 @@ public class JpaConfig
 
 	@Bean
 	@Primary
-	public LocalContainerEntityManagerFactoryBean userEntityManager()
+	public LocalContainerEntityManagerFactoryBean userEntityManager(@Qualifier("userDataSource") DataSource userDataSource)
 	{
-		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(userDataSource());
-		em.setPackagesToScan(new String[] { "com.potchr.data.user.entity" });
+		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+//		DefaultPersistenceUnitManager persistenceUnitManager = new DefaultPersistenceUnitManager();
+//		entityManagerFactoryBean.setPersistenceUnitManager(persistenceUnitManager);
+//		persistenceUnitManager.setDataSourceLookup(new SingleDataSourceLookup(userDataSource));
+//		persistenceUnitManager.setDefaultDataSource(userDataSource);
+		entityManagerFactoryBean.setDataSource(userDataSource);
+//		persistenceUnitManager.setPackagesToScan("com.potchr.data.user");
+		entityManagerFactoryBean.setPackagesToScan("com.potchr.data.user");
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		em.setJpaVendorAdapter(vendorAdapter);
+		vendorAdapter.setShowSql(jpaProperties.isShowSql());
+		vendorAdapter.setGenerateDdl(jpaProperties.isGenerateDdl());
+		entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
 		HibernateProperties hibernateProperties = new HibernateProperties();
-		Map<String,Object> jpaPropertyMap = new HashMap<>();
-		jpaPropertyMap.putAll(hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings().ddlAuto(() -> "update")));
-		jpaPropertyMap.put("show-sql", "true");
-		em.setJpaPropertyMap(jpaPropertyMap);
-		return em;
+		Map<String,Object> jpaPropertyMap = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings().ddlAuto(() -> "update"));
+		entityManagerFactoryBean.setJpaPropertyMap(jpaPropertyMap);
+		entityManagerFactoryBean.setPersistenceUnitName("default-user");
+		return entityManagerFactoryBean;
 	}
 
+	@Bean("userDataSource")
 	@Primary
-	@Bean
 	public DataSource userDataSource()
 	{
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -75,12 +88,12 @@ public class JpaConfig
 		return dataSource;
 	}
 
-	@Primary
 	@Bean
-	public PlatformTransactionManager userTransactionManager()
+	@Primary
+	public PlatformTransactionManager userTransactionManager(@Qualifier("userEntityManager") LocalContainerEntityManagerFactoryBean userEntityManager)
 	{
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(userEntityManager().getObject());
+		transactionManager.setEntityManagerFactory(userEntityManager.getObject());
 		return transactionManager;
 	}
 }

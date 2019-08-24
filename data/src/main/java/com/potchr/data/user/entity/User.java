@@ -3,6 +3,7 @@ package com.potchr.data.user.entity;
 import com.potchr.data.entity.Area;
 
 import javax.persistence.*;
+import java.io.Serializable;
 /**
  * <p>标题：</p>
  * <p>功能：</p>
@@ -14,9 +15,10 @@ import javax.persistence.*;
  * <p>重构：</p>
  * <p>创建日期：2019/7/11 11:48</p>
  */
-@Entity
-public class User
+@MappedSuperclass
+public class User implements Serializable
 {
+	private static final long serialVersionUID = 4038810301608333923L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -29,7 +31,7 @@ public class User
 	@Column(length = 16, nullable = false)
 	private String  password;
 	@Column(length = 11)
-	private String	mobile;
+	private String  mobile;
 	@Embedded
 	private Area    area;
 
@@ -106,7 +108,7 @@ public class User
 	@Override
 	public String toString()
 	{
-		return "User{" + "id=" + id + ", loginName='" + loginName + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", password='" + password + '\'' + ", area=" + area
-				+ '}';
+		return "{" + "id:" + id + ", loginName:'" + loginName + '\'' + ", firstName:'" + firstName + '\'' + ", lastName:'" + lastName + '\'' + ", password:'" + password + '\'' + ", mobile:'" + mobile
+				+ '\'' + ", area:" + area + '}';
 	}
 }

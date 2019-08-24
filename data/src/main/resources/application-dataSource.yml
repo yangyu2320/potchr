@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    user:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/jpa?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123123
+    bcode:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/anotherjpa?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123123
+    snm:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://10.0.0.6:3306/snm_manage?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: snsoft@2019
+  shardingsphere:
+    datasource:
+      names: customerimport
+      customerimport:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/customerimport?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123123
+        maximum-pool-size: 13
+    sharding:
+      tables:
+        imported_customer:
+          actual-data-nodes: customerimport.imported_customer_${0..15}
+#          actual-data-nodes: customerimport.imported_customer
+          table-strategy:
+            inline:
+              sharding-column: customer_id
+              algorithm-expression: imported_customer_${customer_id % 16}
+#              algorithm-expression: imported_customer
+#          key-generator:
+#            column: customer_id
+#            type: SNOWFLAKE
+#      binding-tables: t_order,t_order_item
+#      broadcast-tables: t_config
+#      default-database-strategy:
+#        inline:
+#          sharding-column: user_id
+#        algorithm-expression: ds$->{user_id % 2}

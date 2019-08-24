@@ -1,9 +1,6 @@
 package com.potchr.data.user.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 /**
  * <p>标题：</p>
  * <p>功能：</p>
@@ -21,8 +18,7 @@ public class Wcode
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer wcode;
-
-	private String wname;
+	private String  wname;
 
 	public Integer getWcode()
 	{
@@ -47,6 +43,6 @@ public class Wcode
 	@Override
 	public String toString()
 	{
-		return "Wcode{" + "wcode='" + wcode + '\'' + ", wname='" + wname + '\'' + '}';
+		return "{" + "wcode:" + wcode + ", wname:'" + wname + '\'' + '}';
 	}
 }

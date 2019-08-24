@@ -1,6 +1,6 @@
-package com.potchr.data.user.repository;
+package com.potchr.data.bcode.repository;
 
-import com.potchr.data.user.entity.Wcode;
+import com.potchr.data.bcode.entity.Bcode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.PersistenceUnit;
@@ -13,8 +13,8 @@ import javax.persistence.PersistenceUnit;
  * <p>作者：yangy</p>
  * <p>审核：</p>
  * <p>重构：</p>
- * <p>创建日期：2019/7/12 17:04</p>
+ * <p>创建日期：2019/8/9 16:49</p>
  */
-public interface WcodeRepository extends JpaRepository<Wcode, String>
+public interface BcodeRepository extends JpaRepository<Bcode, String>
 {
 }

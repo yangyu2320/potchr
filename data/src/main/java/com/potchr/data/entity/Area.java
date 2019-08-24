@@ -1,6 +1,7 @@
 package com.potchr.data.entity;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 /**
  * <p>标题：</p>
  * <p>功能：</p>
@@ -13,8 +14,9 @@ import javax.persistence.Embeddable;
  * <p>创建日期：2019/7/11 15:33</p>
  */
 @Embeddable
-public class Area
+public class Area implements Serializable
 {
+	private static final long serialVersionUID = 1599457383069898103L;
 	private String country;
 	private String province;
 	private String city;
@@ -63,6 +65,6 @@ public class Area
 	@Override
 	public String toString()
 	{
-		return "Area{" + "country='" + country + '\'' + ", province='" + province + '\'' + ", city='" + city + '\'' + ", county='" + county + '\'' + '}';
+		return "{" + "country:'" + country + '\'' + ", province:'" + province + '\'' + ", city:'" + city + '\'' + ", county:'" + county + '\'' + '}';
 	}
 }
