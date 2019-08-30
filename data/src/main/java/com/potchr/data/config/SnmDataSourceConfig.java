@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 /**
@@ -47,5 +48,11 @@ public class SnmDataSourceConfig
 	public JdbcTemplate jdbcTemplate(@Qualifier("snmDataSource") DataSource dataSource)
 	{
 		return new JdbcTemplate(dataSource);
+	}
+
+	@Bean("snmrNamedParameterJdbcTemplate")
+	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(@Qualifier("snmDataSource") DataSource dataSource)
+	{
+		return new NamedParameterJdbcTemplate(dataSource);
 	}
 }

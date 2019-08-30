@@ -12,9 +12,12 @@ spring:
       password: 123123
     snm:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://10.0.0.6:3306/snm_manage?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://127.0.0.1:3306/snm_all?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
       username: root
-      password: snsoft@2019
+      password: 123123
+#      url: jdbc:mysql://10.0.0.7:3306/snm_manage?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+#      username: root
+#      password: snsoft@2019
   shardingsphere:
     datasource:
       names: customerimport
@@ -29,11 +32,23 @@ spring:
       tables:
         imported_customer:
           actual-data-nodes: customerimport.imported_customer_${0..15}
-#          actual-data-nodes: customerimport.imported_customer
           table-strategy:
             inline:
               sharding-column: customer_id
               algorithm-expression: imported_customer_${customer_id % 16}
+        imported_customer_ext:
+          actual-data-nodes: customerimport.imported_customer_ext_${0..15}
+          table-strategy:
+            inline:
+              sharding-column: customer_id
+              algorithm-expression: imported_customer_ext_${customer_id % 16}
+        imported_customer_test:
+          actual-data-nodes: customerimport.imported_customer_test_${0..15}
+          table-strategy:
+            inline:
+              sharding-column: customer_id
+              algorithm-expression: imported_customer_test_${customer_id % 16}
+
 #              algorithm-expression: imported_customer
 #          key-generator:
 #            column: customer_id
