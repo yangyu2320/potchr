@@ -2,7 +2,7 @@ package com.potchr.data.service;
 
 import com.google.common.collect.Lists;
 import com.potchr.data.snm.dao.CcodeDAO;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -176,7 +176,7 @@ public class CcodeImportService {
 
     private String makeInnerCode(int code) {
         String codeVal = code + "";
-        return "C" + StringUtils.repeat('0', 9 - codeVal.length()) + codeVal;
+        return "C" + StringUtils.repeat("0", 9 - codeVal.length()) + codeVal;
     }
 
     //C000052036
