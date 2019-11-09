@@ -1,8 +1,5 @@
 package com.potchr.data.ccode.entity;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.engine.jdbc.dialect.spi.DialectFactory;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -215,11 +212,11 @@ public class Customer implements Serializable {
         this.customsCode = customsCode;
     }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }

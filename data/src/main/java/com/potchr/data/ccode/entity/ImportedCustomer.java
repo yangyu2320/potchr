@@ -19,7 +19,6 @@ import javax.persistence.Table;
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(name = "imported_customer_test")
-public class ImportedCustomer extends Customer
-{
-	private static final long serialVersionUID = -2343014398228460018L;
+public class ImportedCustomer extends Customer {
+    private static final long serialVersionUID = -2343014398228460018L;
 }

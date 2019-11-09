@@ -1,17 +1,19 @@
 spring:
+  application:
+    name: potchr
   profiles:
     include: dataSource
   jpa:
-    database: mysql
+    database: MYSQL
+    generate-ddl: true
     show_sql: true
     hibernate:
       implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
       physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
         enable_lazy_load_no_trans: true
-  application:
-    name: eureka-client
 logging:
   level:
     root: info

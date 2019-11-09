@@ -2,31 +2,28 @@ spring:
   datasource:
     user:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/jpa?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://127.0.0.1:3306/jpa?charactorEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
       username: root
-      password: 123123
+      password: 11259375
     bcode:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/anotherjpa?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://127.0.0.1:3306/anotherjpa?charactorEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
       username: root
-      password: 123123
+      password: 11259375
     snm:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/snm_all?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://127.0.0.1:3306/snm_all?charactorEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
       username: root
       password: 123123
-#      url: jdbc:mysql://10.0.0.7:3306/snm_manage?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-#      username: root
-#      password: snsoft@2019
   shardingsphere:
     datasource:
       names: customerimport
       customerimport:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/customerimport?charactorEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/customerimport?charactorEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
         username: root
-        password: 123123
+        password: 11259375
         maximum-pool-size: 13
     sharding:
       tables:

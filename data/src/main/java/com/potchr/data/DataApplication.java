@@ -6,8 +6,6 @@ import com.potchr.data.ccode.repository.CustomerRepository;
 import com.potchr.data.ccode.service.CustomerImportService;
 import com.potchr.data.user.entity.ErpUser;
 import com.potchr.data.user.service.UserService;
-import com.potchr.ncode.entity.Ncode;
-import com.potchr.ncode.service.NcodeService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shardingsphere.core.strategy.keygen.SnowflakeShardingKeyGenerator;
 import org.slf4j.Logger;
@@ -22,50 +20,49 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @EnableCaching
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
-@SpringBootApplication(scanBasePackages = {"com.potchr.data", "com.potchr.ncode"})
-//@EnableDiscoveryClient
-//@EnableFeignClients
+@SpringBootApplication(scanBasePackages = {"com.potchr.data"})
 public class DataApplication {
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplicationBuilder(DataApplication.class).bannerMode(Banner.Mode.OFF).build();
         ConfigurableApplicationContext applicationContext = springApplication.run(args);
-//        importCcode(applicationContext);
-		updateRegCode(applicationContext);
+        updateRegCode(applicationContext);
         applicationContext.close();
     }
 
 
     private static void updateRegCode(ApplicationContext applicationContext) {
-		JdbcTemplate jdbcTemplate = applicationContext.getBean("customerJdbcTemplate", JdbcTemplate.class);
-		String updateSql = "UPDATE precise_customer SET business_scope=? WHERE customer_id=?";
+        JdbcTemplate jdbcTemplate = applicationContext.getBean("customerJdbcTemplate", JdbcTemplate.class);
+        String updateSql = "UPDATE precise_customer SET business_scope=? WHERE customer_id=?";
         for (int i = 867; i < 1317; i++) {
             int past = 1000 * i;
             String sql = "SELECT customer_id,customer_name FROM precise_customer ORDER BY customer_id LIMIT " + past + ",1000";
-			List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql);
-			List<Object[]> updateParams = new ArrayList<>();
-			for (Map<String, Object> map : maps) {
-				String customer_name = (String) map.get("customer_name");
-				sql = "SELECT MAX(business_scope) AS business_scope FROM imported_customer_ext WHERE customer_name='"+ customer_name +"'";
-				String business_scope = jdbcTemplate.queryForObject(sql, String.class);
-				Object[] param = new Object[2];
-				param[0] = business_scope;
-				param[1] = map.get("customer_id");
-				updateParams.add(param);
-			}
-			jdbcTemplate.batchUpdate(updateSql, updateParams);
-			System.out.println(i);
-		}
+            List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql);
+            List<Object[]> updateParams = new ArrayList<>();
+            for (Map<String, Object> map : maps) {
+                String customer_name = (String) map.get("customer_name");
+                sql = "SELECT MAX(business_scope) AS business_scope FROM imported_customer_ext WHERE customer_name='" + customer_name + "'";
+                String business_scope = jdbcTemplate.queryForObject(sql, String.class);
+                Object[] param = new Object[2];
+                param[0] = business_scope;
+                param[1] = map.get("customer_id");
+                updateParams.add(param);
+            }
+            jdbcTemplate.batchUpdate(updateSql, updateParams);
+            System.out.println(i);
+        }
     }
 
     private static void deleteRepeat(ApplicationContext applicationContext) {
@@ -79,69 +76,6 @@ public class DataApplication {
             jdbcTemplate.execute(sql);
             System.out.println("完成");
         }
-    }
-
-    private static void testNcode(ApplicationContext applicationContext, Set<String> citySet) {
-        Logger logger = LoggerFactory.getLogger("Ncode转换");
-        NcodeService ncodeService = applicationContext.getBean(NcodeService.class);
-        List<Ncode> ncodes = ncodeService.loadNcodes();
-        ncodes.sort((o1, o2) -> {
-            return o1.getNname().compareTo(o2.getNname());
-        });
-        Ncode[] ncodeArr = ncodes.toArray(new Ncode[0]);
-        JdbcTemplate jdbcTemplate = applicationContext.getBean("customerJdbcTemplate", JdbcTemplate.class);
-        List<PreciseCustomer> importedCustomers = jdbcTemplate.query("SELECT * FROM precise_customer WHERE ncode IS NULL", new BeanPropertyRowMapper<PreciseCustomer>(PreciseCustomer.class));
-        List<Map<String, Object>> parameters = new ArrayList<>();
-        importedCustomers.stream().forEach(importedCustomer -> {
-            String provicne = StringUtils.stripToNull(importedCustomer.getProvince());
-            String city = StringUtils.stripToNull(importedCustomer.getCity());
-            if (provicne == null && city == null) {
-                return;
-            }
-            Ncode ncode = new Ncode();
-            ncode.setNname(city != null ? city : provicne);
-            int index = Arrays.binarySearch(ncodeArr, ncode, (ncode1, ncode2) -> {
-                return ncode1.getNname().compareTo(ncode2.getNname());
-            });
-            if (index < 0) {
-                if (provicne != null) {
-                    ncode = new Ncode();
-                    ncode.setNname(provicne);
-                    index = Arrays.binarySearch(ncodeArr, ncode, (ncode1, ncode2) -> {
-                        return ncode1.getNname().compareTo(ncode2.getNname());
-                    });
-                }
-            }
-            if (index < 0) {
-                citySet.add(ncode.getNname());
-            } else {
-                String ncodeStr = ncodeArr[index].getNcode();
-                if (ncodeStr == null) {
-                    citySet.add(ncode.getNname());
-                    return;
-                }
-                Map<String, Object> parameter = new HashMap<>();
-                parameter.put("customer_id", importedCustomer.getCustomerId());
-                parameter.put("ncode", ncodeStr);
-                parameters.add(parameter);
-            }
-        });
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = applicationContext.getBean("customerNamedParameterJdbcTemplate", NamedParameterJdbcTemplate.class);
-        logger.info("共计:" + parameters.size());
-        int count = 0;
-        List<Map<String, Object>> updateParameters = new ArrayList<>();
-        for (Map<String, Object> parameter : parameters) {
-            updateParameters.add(parameter);
-            if (updateParameters.size() == 2500) {
-                count += 2500;
-                namedParameterJdbcTemplate.batchUpdate("UPDATE precise_customer SET ncode=:ncode WHERE customer_id=:customer_id", updateParameters.toArray(new HashMap[0]));
-                updateParameters.clear();
-                logger.info("已完成:" + count + "/" + parameters.size());
-            }
-        }
-        namedParameterJdbcTemplate.batchUpdate("UPDATE precise_customer SET ncode=:ncode WHERE customer_id=:customer_id", updateParameters.toArray(new HashMap[0]));
-        logger.info("已完成:" + (count + updateParameters.size()) + "/" + parameters.size());
-//		logger.info("第" + i + "张表完成！");
     }
 
     private static void addCcode(ApplicationContext applicationContext) throws ParseException {
