@@ -3,6 +3,7 @@ package com.potchr.xml.table;
 import com.potchr.xml.Component;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlType(name = "GridTable")
@@ -12,7 +13,7 @@ public class GridTable extends Component {
     @XmlElements({
             @XmlElement(name = "Column", type = GridTableColumn.class)
     })
-    List<Component> components;
+    final public List<Component> components = new ArrayList<>();
 
     @Override
     public void render(StringBuffer buffer) {

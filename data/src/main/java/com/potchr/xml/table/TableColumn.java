@@ -6,13 +6,12 @@ import com.potchr.xml.Component;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(name = "TableColumn")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class TableColumn extends Component {
 
     @XmlAttribute
-    private String title;
-
-    @XmlAttribute
-    private boolean readOnly;
+    public Boolean readOnly = false;
 }

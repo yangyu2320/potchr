@@ -5,127 +5,128 @@
 
   <xs:complexType name="Page">
     <xs:complexContent>
-      <xs:extension base="tns:layout">
+      <xs:extension base="tns:Layout">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="layout" abstract="true">
+  <xs:complexType name="Layout" abstract="true">
     <xs:complexContent>
-      <xs:extension base="tns:container">
+      <xs:extension base="tns:Container">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="container" abstract="true">
+  <xs:complexType name="Container" abstract="true">
     <xs:complexContent>
-      <xs:extension base="tns:component">
+      <xs:extension base="tns:Component">
         <xs:sequence>
           <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="GridTable" type="tns:GridTable"/>
             <xs:element name="RecordTable" type="tns:RecordTable"/>
-            <xs:element name="BorderLayout" type="tns:borderLayout"/>
-            <xs:element name="GridLayout" type="tns:gridLayout"/>
-            <xs:element name="TabbedPaneLayout" type="tns:tabbedPaneLayout"/>
-            <xs:element name="VerticalLayout" type="tns:verticalLayout"/>
-            <xs:element name="HorizintalLayout" type="tns:horizintalLayout"/>
+            <xs:element name="BorderLayout" type="tns:BorderLayout"/>
+            <xs:element name="GridLayout" type="tns:GridLayout"/>
+            <xs:element name="TabbedPaneLayout" type="tns:TabbedPaneLayout"/>
+            <xs:element name="VerticalLayout" type="tns:VerticalLayout"/>
+            <xs:element name="HorizintalLayout" type="tns:HorizintalLayout"/>
           </xs:choice>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="component" abstract="true">
+  <xs:complexType name="Component" abstract="true">
     <xs:sequence/>
-    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="title" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
     <xs:attribute name="color" type="xs:string"/>
     <xs:attribute name="width" type="xs:string"/>
     <xs:attribute name="height" type="xs:string"/>
+    <xs:attribute name="hidden" type="xs:boolean"/>
   </xs:complexType>
 
   <xs:complexType name="GridTable">
     <xs:complexContent>
-      <xs:extension base="tns:component">
+      <xs:extension base="tns:Component">
         <xs:sequence>
-          <xs:element name="Column" type="tns:gridTableColumn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="Column" type="tns:GridTableColumn" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="gridTableColumn">
+  <xs:complexType name="GridTableColumn">
     <xs:complexContent>
-      <xs:extension base="tns:tableColumn">
+      <xs:extension base="tns:TableColumn">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="tableColumn" abstract="true">
+  <xs:complexType name="TableColumn" abstract="true">
     <xs:complexContent>
-      <xs:extension base="tns:component">
+      <xs:extension base="tns:Component">
         <xs:sequence/>
-        <xs:attribute name="title" type="xs:string"/>
-        <xs:attribute name="readOnly" type="xs:boolean" use="required"/>
+        <xs:attribute name="readOnly" type="xs:boolean"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="RecordTable">
     <xs:complexContent>
-      <xs:extension base="tns:component">
+      <xs:extension base="tns:Component">
         <xs:sequence>
-          <xs:element name="Column" type="tns:recordTableColumn" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="Column" type="tns:RecordTableColumn" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="recordTableColumn">
+  <xs:complexType name="RecordTableColumn">
     <xs:complexContent>
-      <xs:extension base="tns:tableColumn">
+      <xs:extension base="tns:TableColumn">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="borderLayout">
+  <xs:complexType name="BorderLayout">
     <xs:complexContent>
-      <xs:extension base="tns:layout">
+      <xs:extension base="tns:Layout">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="gridLayout">
+  <xs:complexType name="GridLayout">
     <xs:complexContent>
-      <xs:extension base="tns:layout">
+      <xs:extension base="tns:Layout">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="tabbedPaneLayout">
+  <xs:complexType name="TabbedPaneLayout">
     <xs:complexContent>
-      <xs:extension base="tns:layout">
+      <xs:extension base="tns:Layout">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="verticalLayout">
+  <xs:complexType name="VerticalLayout">
     <xs:complexContent>
-      <xs:extension base="tns:layout">
+      <xs:extension base="tns:Layout">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="horizintalLayout">
+  <xs:complexType name="HorizintalLayout">
     <xs:complexContent>
-      <xs:extension base="tns:layout">
+      <xs:extension base="tns:Layout">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>

@@ -8,8 +8,4 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TabbedPaneLayout extends Layout {
 
-    @Override
-    public void render(StringBuffer buffer) {
-
-    }
 }

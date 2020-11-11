@@ -7,8 +7,5 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "HorizintalLayout")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HorizintalLayout extends Layout {
-    @Override
-    public void render(StringBuffer buffer) {
 
-    }
 }

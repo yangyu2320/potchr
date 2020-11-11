@@ -1,6 +1,5 @@
 package com.potchr;
 
-import com.potchr.ncode.service.NcodeService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 

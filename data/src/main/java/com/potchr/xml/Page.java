@@ -6,6 +6,7 @@ import com.potchr.xml.layout.Layout;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,19 +25,17 @@ public class Page extends Layout {
 
         JAXBContext jaxbContext = JAXBContext.newInstance(Page.class);
 
+        /*final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        final Page unmarshal = (Page) unmarshaller.unmarshal(Page.class.getClassLoader().getResource("xml/test.xml"));
+        System.out.println(unmarshal);*/
         jaxbContext.generateSchema(new SchemaOutputResolver() {
             @Override
             public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
                 System.out.println("NameSpaceUrl:" + namespaceUri);
                 System.out.println("SuggestedFileName:" + suggestedFileName);
-                File schemaFile = new File("D:\\" + suggestedFileName);
+                File schemaFile = new File("D:\\WorkSpace\\potchr\\data\\src\\main\\resources\\xml\\test.xsd");
                 return new StreamResult(schemaFile);
             }
         });
-    }
-
-    @Override
-    public void render(StringBuffer buffer) {
-
     }
 }

@@ -4,6 +4,7 @@ import com.potchr.xml.Container;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * @see BorderLayout
@@ -12,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @see VerticalLayout
  * @see HorizintalLayout
  */
+@XmlType(name = "Layout")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Layout extends Container{
 
