@@ -1,10 +1,9 @@
 package com.potchr.data.user.entity;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * <p>标题：</p>
  * <p>功能：</p>
@@ -18,26 +17,22 @@ import java.util.List;
  */
 @Entity
 @Table(name = "user")
-public class ErpUser extends User
-{
-	private static final long serialVersionUID = -8537313148471993494L;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "userId", referencedColumnName = "id")
-	private List<UserRole> roles;
+public class ErpUser extends User {
+    private static final long serialVersionUID = -8537313148471993494L;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private List<UserRole> roles;
 
-	public List<UserRole> getRoles()
-	{
-		return roles == null ? new ArrayList<>() : roles;
-	}
+    public List<UserRole> getRoles() {
+        return roles == null ? new ArrayList<>() : roles;
+    }
 
-	public void setRoles(List<UserRole> roles)
-	{
-		this.roles = roles;
-	}
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "{" + "roles:" + getRoles() + "}, " + super.toString();
-	}
+    @Override
+    public String toString() {
+        return "{" + "roles:" + getRoles() + "}, " + super.toString();
+    }
 }

@@ -1,0 +1,7 @@
+<ui:Page xmlns:ui="http://www.potchr.com/schema/UI">
+    <TabbedPaneLayout>
+        <GridTable>
+            <Column title="合同号" name="orderCode" readOnly="false"/>
+        </GridTable>
+    </TabbedPaneLayout>
+</ui:Page>

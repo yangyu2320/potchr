@@ -1,11 +1,9 @@
 package com.potchr.data.config;
 
 import com.google.common.base.Preconditions;
-import org.apache.shardingsphere.core.exception.ShardingException;
-import org.apache.shardingsphere.core.util.InlineExpressionParser;
-import org.apache.shardingsphere.core.yaml.swapper.impl.EncryptRuleConfigurationYamlSwapper;
-import org.apache.shardingsphere.core.yaml.swapper.impl.MasterSlaveRuleConfigurationYamlSwapper;
-import org.apache.shardingsphere.core.yaml.swapper.impl.ShardingRuleConfigurationYamlSwapper;
+import org.apache.shardingsphere.core.yaml.swapper.MasterSlaveRuleConfigurationYamlSwapper;
+import org.apache.shardingsphere.core.yaml.swapper.ShardingRuleConfigurationYamlSwapper;
+import org.apache.shardingsphere.encrypt.yaml.swapper.EncryptRuleConfigurationYamlSwapper;
 import org.apache.shardingsphere.shardingjdbc.api.EncryptDataSourceFactory;
 import org.apache.shardingsphere.shardingjdbc.api.MasterSlaveDataSourceFactory;
 import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
@@ -13,8 +11,9 @@ import org.apache.shardingsphere.shardingjdbc.spring.boot.common.SpringBootPrope
 import org.apache.shardingsphere.shardingjdbc.spring.boot.encrypt.SpringBootEncryptRuleConfigurationProperties;
 import org.apache.shardingsphere.shardingjdbc.spring.boot.masterslave.SpringBootMasterSlaveRuleConfigurationProperties;
 import org.apache.shardingsphere.shardingjdbc.spring.boot.sharding.SpringBootShardingRuleConfigurationProperties;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.util.DataSourceUtil;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.util.PropertyUtil;
+import org.apache.shardingsphere.spring.boot.util.DataSourceUtil;
+import org.apache.shardingsphere.spring.boot.util.PropertyUtil;
+import org.apache.shardingsphere.underlying.common.config.inline.InlineExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -103,7 +102,7 @@ public class CustomerShardingConfig implements EnvironmentAware {
             try {
                 this.dataSourceMap.put(each, this.getDataSource(environment, prefix, each));
             } catch (ReflectiveOperationException var6) {
-                throw new ShardingException("Can't find datasource type!", var6);
+                throw new RuntimeException("Can't find datasource type!", var6);
             }
         }
     }
