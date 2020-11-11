@@ -28,6 +28,7 @@
             <xs:element name="RecordTable" type="tns:RecordTable"/>
             <xs:element name="BorderLayout" type="tns:BorderLayout"/>
             <xs:element name="GridLayout" type="tns:GridLayout"/>
+            <xs:element name="DockLayout" type="tns:DockLayout"/>
             <xs:element name="TabbedPaneLayout" type="tns:TabbedPaneLayout"/>
             <xs:element name="VerticalLayout" type="tns:VerticalLayout"/>
             <xs:element name="HorizintalLayout" type="tns:HorizintalLayout"/>
@@ -108,6 +109,15 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="DockLayout">
+    <xs:complexContent>
+      <xs:extension base="tns:Layout">
+        <xs:sequence/>
+        <xs:attribute name="position" type="tns:DockPosition" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="TabbedPaneLayout">
     <xs:complexContent>
       <xs:extension base="tns:Layout">
@@ -124,12 +134,21 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="HorizintalLayout">
+  <xs:complexType name="HorizontalLayout">
     <xs:complexContent>
       <xs:extension base="tns:Layout">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:simpleType name="DockPosition">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="top"/>
+      <xs:enumeration value="bottom"/>
+      <xs:enumeration value="left"/>
+      <xs:enumeration value="right"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
 

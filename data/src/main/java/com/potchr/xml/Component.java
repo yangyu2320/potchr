@@ -9,25 +9,43 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Component {
 
-    //标题
-    @XmlAttribute(required = true)
-    public String title;
-
     //名称
     @XmlAttribute(required = true)
     public String name;
 
-    //颜色
+    //标题
+    @XmlAttribute(required = true)
+    public String title;
+
+    //前景色
     @XmlAttribute
     public String color;
 
+    //背景色
+    @XmlAttribute
+    public String backgroundColor;
+
+    //字体大小
+    @XmlAttribute
+    public Integer fontSize;
+
+    //字体族
+    @XmlAttribute
+    public String fontFamily;
+
     //宽
     @XmlAttribute
-    public String width;
+    public Integer width;
 
     //高
     @XmlAttribute
-    public String height;
+    public Integer height;
+
+    @XmlAttribute
+    public Integer layoutWidth = 1;
+
+    @XmlAttribute
+    public Integer layoutHeight = 1;
 
     //隐藏
     @XmlAttribute

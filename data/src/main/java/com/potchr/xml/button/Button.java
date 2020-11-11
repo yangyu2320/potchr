@@ -1,11 +1,13 @@
-package com.potchr.xml.layout;
+package com.potchr.xml.button;
+
+import com.potchr.xml.Component;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "HorizintalLayout")
+@XmlType(name = "Button")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HorizintalLayout extends Layout {
+public abstract class Button extends Component {
 
 }

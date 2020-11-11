@@ -33,7 +33,7 @@ public class Page extends Layout {
             public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
                 System.out.println("NameSpaceUrl:" + namespaceUri);
                 System.out.println("SuggestedFileName:" + suggestedFileName);
-                File schemaFile = new File("D:\\WorkSpace\\potchr\\data\\src\\main\\resources\\xml\\test.xsd");
+                File schemaFile = new File("/Users/yangyu/WorkSpaces/Demo/potchr/data/src/main/resources/xml/test.xsd");
                 return new StreamResult(schemaFile);
             }
         });

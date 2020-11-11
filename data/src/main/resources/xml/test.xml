@@ -5,4 +5,5 @@
     <GridTable title="子表" name="detail">
         <Column title="合同号" name="orderCode"/>
     </GridTable>
+    <DockLayout title="test" name="test" position="bottom"/>
 </ui:Page>
