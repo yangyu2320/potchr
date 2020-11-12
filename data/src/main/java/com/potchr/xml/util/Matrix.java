@@ -4,7 +4,6 @@ import com.potchr.xml.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Matrix {
 
@@ -12,18 +11,24 @@ public class Matrix {
 
     private List<Component> allComponents;
 
-    private List<List<Component>> matrix;
+    private List<List<Component>> matrix = new ArrayList<>();
 
-    public Matrix (int columns, List<Component> components) {
+    private EmptyComponent emptyComponent = new EmptyComponent();
+
+    public Matrix(int columns, List<Component> components) {
         this.columns = columns;
         this.allComponents = components;
     }
 
     public List<List<Component>> toMatrix() {
-        if (this.matrix == null) {
-            appendRow();
-            for (Component component : allComponents) {
-                fill(component);
+        for (Component component : allComponents) {
+            fill(component);
+        }
+        for (List<Component> components : this.matrix) {
+            for (int i = components.size() - 1; i >= 0; i--) {
+                if (components.get(i) == emptyComponent) {
+                    components.remove(i);
+                }
             }
         }
         return this.matrix;
@@ -31,19 +36,22 @@ public class Matrix {
 
     private void fill(Component component) {
         NextRegion nextRegion = findNextRegion();
-        Objects.requireNonNull(nextRegion, "不应该为空,如果为空，则算法有问题！");
         if (nextRegion.width < component.layoutWidth) {
             component.layoutWidth = nextRegion.width;
         }
         for (int i = 0; i < component.layoutWidth; i++) {
             for (int j = 0; j < component.layoutHeight; j++) {
                 List<Component> row = this.matrix.size() > nextRegion.rowStart + j ? this.matrix.get(nextRegion.rowStart + j) : appendRow();
-                row.set(nextRegion.colStart + i, component);
+                row.set(nextRegion.colStart + i, (i + j == 0) ? component : emptyComponent);
             }
         }
     }
 
+
     private NextRegion findNextRegion() {
+        if (this.matrix.size() == 0) {
+            appendRow();
+        }
         for (int rowNum = 0; rowNum < this.matrix.size(); rowNum++) {
             List<Component> row = this.matrix.get(rowNum);
             for (int colNum = 0; colNum < row.size(); colNum++) {
@@ -65,9 +73,6 @@ public class Matrix {
     }
 
     private List<Component> appendRow() {
-        if (this.matrix == null) {
-            this.matrix = new ArrayList<>();
-        }
         List<Component> row = new ArrayList<>();
         for (int i = 0; i < this.columns; i++) {
             row.add(null);
@@ -88,6 +93,14 @@ public class Matrix {
             this.colStart = colStart;
             this.rowStart = rowStart;
             this.width = width;
+        }
+    }
+
+    private static class EmptyComponent extends Component {
+
+        @Override
+        public void render(StringBuffer buffer) {
+            throw new UnsupportedOperationException();
         }
     }
 }

@@ -63,5 +63,12 @@ public class DataApplicationTests {
             }
             System.out.println();
         }
+        RecordTable recordTable = new RecordTable();
+        recordTable.columns = 4;
+        recordTable.name = "测试";
+        recordTable.components = componentList;
+        final StringBuffer buffer = new StringBuffer();
+        recordTable.render(buffer);
+        System.out.println(buffer);
     }
 }

@@ -7,7 +7,6 @@ import com.potchr.xml.util.Matrix;
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @XmlType(name = "RecordTable")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -24,7 +23,16 @@ public class RecordTable extends Component {
 
     @Override
     public void render(StringBuffer buffer) {
-
+        buffer.append("<table class='").append("record-table").append("'><tbody>");
+        final List<List<Component>> matrix = buildComponentMatrix();
+        for (List<Component> row : matrix) {
+            buffer.append("<tr>");
+            for (Component component : row) {
+                component.render(buffer);
+            }
+            buffer.append("</tr>");
+        }
+        buffer.append("</tbody></table>");
     }
 
     private List<List<Component>> buildComponentMatrix() {
@@ -39,9 +47,16 @@ public class RecordTable extends Component {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class RecordTableColumn extends TableColumn {
 
+        @XmlAttribute
+        public Boolean labelHidden = false;
+
         @Override
         public void render(StringBuffer buffer) {
-
+            if (!labelHidden) {
+                buffer.append("<td rowspan=").append(this.layoutHeight).append("><label><span").append(forceInput ? " class='force'" : "").append(">*</span>").append(this.name).append("</label></td>");
+            }
+            int colSpan = this.layoutWidth * 2 - 1 + (labelHidden ? 1 : 0);
+            buffer.append("<td colspan=").append(colSpan).append(" rowspan=").append(this.layoutHeight).append("><input type='").append(type.htmlType()).append("'></td>");
         }
     }
 }
