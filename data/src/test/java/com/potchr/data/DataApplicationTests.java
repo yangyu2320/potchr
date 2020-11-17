@@ -6,6 +6,8 @@ import com.potchr.xml.util.Matrix;
 import org.apache.shardingsphere.core.strategy.keygen.SnowflakeShardingKeyGenerator;
 import org.junit.Test;
 
+import javax.activation.MimeType;
+import javax.script.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,5 +72,30 @@ public class DataApplicationTests {
         final StringBuffer buffer = new StringBuffer();
         recordTable.render(buffer);
         System.out.println(buffer);
+    }
+
+    @Test
+    public void testJs() throws ScriptException, NoSuchMethodException {
+        final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
+        engine.eval("var obj = {print: function (p){return p+'_yyy'}, printx: function(q){return this.print(q)}}; function bx(t){return obj.printx(t)}");
+//        if (engine instanceof Compilable) {
+//            final CompiledScript compile = ((Compilable) engine).compile("function print(p){java.lang.System.out.println(p)}");
+//            final ScriptEngine engine1 = compile.getEngine();
+//            if (engine1 instanceof Invocable) {
+//                ((Invocable) engine1).invokeFunction("print", "xxxxxxxxx");
+//            }
+//        }
+        if (engine instanceof Invocable invocable) {
+//            final Object o = ((Invocable) engine).invokeMethod(engine.get("obj"), "printx", "xxxx");
+//            System.out.println(o);
+            final Object o = invocable.invokeFunction("bx", "xxxx");
+            System.out.println(o instanceof String);
+            System.out.println(o);
+        }
+    }
+
+    public void println(Object x) {
+        System.out.println(x);
+        final com.potchr.data.Test test = new com.potchr.data.Test("a", 1);
     }
 }

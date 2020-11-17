@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: "Microsoft YaHei UI", sans-serif;
+            font-size: 12px;
+        }
+
+        .grid-container {
+            display: grid;
+            display: -ms-grid;
+            width: fit-content;
+            height: fit-content;
+            grid-row-gap: 5px;
+            white-space: nowrap;
+            grid-template-columns: min-content 150px min-content 150px min-content 150px min-content 150px;
+        }
+
+        .grid-item {
+            display: grid;
+            align-items: center;
+            height: 24px;
+        }
+
+        .grid-item label {
+            padding-left: 10px;
+            padding-right: 5px;
+        }
+
+        input {
+            margin: 0;
+        }
+
+        input[type="text"] {
+            font-size: inherit;
+            font-family: inherit;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            width: 100%;
+            height: 100%;
+            padding: 0 5px;
+        }
+
+        textarea {
+            font-family: inherit;
+            font-size: 12px;
+            resize: none;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            outline-color: blue;
+            width: 100%;
+            height: 100%;
+            padding: 3px 5px;
+            margin: 0;
+        }
+
+        .checkbox-container {
+            display: inline-block;
+            cursor: pointer;
+            white-space: nowrap;
+            word-spacing: -6px;
+            margin-right: 7px;
+        }
+
+        .checkbox-container:last-child {
+            margin-right: 0;
+        }
+
+        .checkbox-container label {
+            cursor: inherit;
+            display: inline-block;
+            padding-left: 8px;
+            padding-right: 0;
+        }
+
+        .checkbox-container input {
+            height: 14px;
+            width: 14px;
+            cursor: inherit;
+            opacity: 0;
+            display: inline-block;
+            margin: 0 0 0 -14px;
+            padding: 0;
+        }
+
+        .checkbox-container input, .checkbox-container label {
+            vertical-align: middle;
+        }
+
+        .check {
+            position: relative;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 1px solid blue;
+            border-radius: 3px;
+            vertical-align: middle;
+            padding: 0;
+            margin: 0;
+            background-color: blue;
+        }
+
+        .check:before {
+            content: "";
+            background: url("check.png");
+            position: absolute;
+            left: 1px;
+            top: 2px;
+            width: 10px;
+            height: 8px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="grid-container">
+    <div class="grid-item"><label>合同1</label></div>
+    <div class="grid-item" style="grid-column: span 3"><input type="text"/></div>
+    <div class="grid-item"><label>合同2</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同3</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同4</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同5</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item" style="grid-row: span 2; height: 100%"><label>合同6</label></div>
+    <div class="grid-item" style="grid-row: span 2; grid-column: span 3; height: 100%"><textarea></textarea></div>
+    <div class="grid-item"><label>合同7</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同8</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同9</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同10</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同11</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item"><label>合同12</label></div>
+    <div class="grid-item"><input type="text"/></div>
+    <div class="grid-item" style="grid-column: span 2; justify-items: center">
+        <div>
+            <span class="checkbox-container" style="display: inline-block">
+                <span class="check"></span>
+                <input id="test-01" type="radio" name="a">
+                <label for="test-01">报关费</label>
+            </span>
+            <span class="checkbox-container" style="display: inline-block">
+                <span class="check"></span>
+                <input id="test-02" type="radio" name="a">
+                <label for="test-02">装箱费</label>
+            </span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

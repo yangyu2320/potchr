@@ -55,17 +55,17 @@ html, body {
 }
 
 .record-table tr td {
-    height: 30px;
+    height: 28px;
+    padding-bottom: 2px;
+    white-space: nowrap;
+}
+
+.record-table-row-height-base {
+    visibility: hidden;
 }
 
 .record-table-container .record-table tr td label {
     padding: 0 5px 0 10px;
-}
-
-.record-table-container .record-table tr td {
-    padding-bottom: 2px;
-    /*text-align: right;*/
-    white-space: nowrap;
 }
 
 /*.record-table-container .record-table tr td:first-child {
