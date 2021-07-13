@@ -45,14 +45,3 @@ spring:
             inline:
               sharding-column: customer_id
               algorithm-expression: imported_customer_test_${customer_id % 16}
-
-#              algorithm-expression: imported_customer
-#          key-generator:
-#            column: customer_id
-#            type: SNOWFLAKE
-#      binding-tables: t_order,t_order_item
-#      broadcast-tables: t_config
-#      default-database-strategy:
-#        inline:
-#          sharding-column: user_id
-#        algorithm-expression: ds$->{user_id % 2}

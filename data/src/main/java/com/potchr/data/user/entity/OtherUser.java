@@ -13,6 +13,8 @@ import javax.persistence.*;
  * <p>创建日期：2019/8/13 10:50</p>
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "sheet_code", length = 20)
 @Table(name = "user")
 public class OtherUser
 {
@@ -21,6 +23,9 @@ public class OtherUser
 	private Integer id;
 	@Column(length = 18)
 	private String  idCardNo;
+
+	@Column(length = 20, nullable = false)
+	private String sheetCode;
 
 	public Integer getId()
 	{

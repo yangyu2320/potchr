@@ -1,25 +1,17 @@
+server:
+  port: 8080
 spring:
   application:
     name: potchr
   profiles:
     include: dataSource
   jpa:
-    database: MYSQL
     generate-ddl: true
     show_sql: true
     hibernate:
-      implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-      physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL57Dialect
-        enable_lazy_load_no_trans: true
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
 logging:
-  level:
-    root: info
-server:
-  port: 8080
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+  level: info

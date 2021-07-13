@@ -14,14 +14,14 @@ import java.io.Serializable;
  * <p>创建日期：2019/8/9 15:13</p>
  */
 @Entity
+@IdClass(UserRoleId.class)
 public class UserRole implements Serializable
 {
 	private static final long serialVersionUID = -8770812027714795662L;
 	@Id
 	@Column(nullable = false)
-	private Integer id;
-	@Column(nullable = false)
 	private Integer userId;
+	@Id
 	@Column(nullable = false)
 	private String  roleCode;
 
@@ -43,21 +43,5 @@ public class UserRole implements Serializable
 	public void setRoleCode(String roleCode)
 	{
 		this.roleCode = roleCode;
-	}
-
-	public Integer getId()
-	{
-		return id;
-	}
-
-	public void setId(Integer id)
-	{
-		this.id = id;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "{" + "id:" + id + ", userId:" + userId + ", roleCode:'" + roleCode + '\'' + '}';
 	}
 }

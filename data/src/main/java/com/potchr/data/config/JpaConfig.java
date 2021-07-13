@@ -39,7 +39,7 @@ import java.util.Map;
  * <p>创建日期：2019/7/11 16:05</p>
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "com.potchr.data.user", entityManagerFactoryRef = "userEntityManager", transactionManagerRef = "userTransactionManager")
+@EnableJpaRepositories(basePackages = "com.potchr.data", entityManagerFactoryRef = "userEntityManager", transactionManagerRef = "userTransactionManager")
 public class JpaConfig
 {
 	@Value("${spring.datasource.user.driver-class-name}")
@@ -58,12 +58,12 @@ public class JpaConfig
 	public LocalContainerEntityManagerFactoryBean userEntityManager(@Qualifier("userDataSource") DataSource userDataSource)
 	{
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-//		DefaultPersistenceUnitManager persistenceUnitManager = new DefaultPersistenceUnitManager();
-//		entityManagerFactoryBean.setPersistenceUnitManager(persistenceUnitManager);
-//		persistenceUnitManager.setDataSourceLookup(new SingleDataSourceLookup(userDataSource));
-//		persistenceUnitManager.setDefaultDataSource(userDataSource);
+		DefaultPersistenceUnitManager persistenceUnitManager = new DefaultPersistenceUnitManager();
+		persistenceUnitManager.setDataSourceLookup(new SingleDataSourceLookup(userDataSource));
+		persistenceUnitManager.setDefaultDataSource(userDataSource);
+		persistenceUnitManager.setPackagesToScan("com.potchr.data.user");
+		entityManagerFactoryBean.setPersistenceUnitManager(persistenceUnitManager);
 		entityManagerFactoryBean.setDataSource(userDataSource);
-//		persistenceUnitManager.setPackagesToScan("com.potchr.data.user");
 		entityManagerFactoryBean.setPackagesToScan("com.potchr.data.user");
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setShowSql(jpaProperties.isShowSql());

@@ -57,6 +57,15 @@ public class CustomerShardingConfig implements EnvironmentAware {
     @Autowired
     private JpaProperties jpaProperties;
 
+    @ConstructorProperties({"shardingProperties", "masterSlaveProperties", "encryptProperties", "propMapProperties"})
+    public CustomerShardingConfig(SpringBootShardingRuleConfigurationProperties shardingProperties, SpringBootMasterSlaveRuleConfigurationProperties masterSlaveProperties,
+                                  SpringBootEncryptRuleConfigurationProperties encryptProperties, SpringBootPropertiesConfigurationProperties propMapProperties) {
+        this.shardingProperties = shardingProperties;
+        this.masterSlaveProperties = masterSlaveProperties;
+        this.encryptProperties = encryptProperties;
+        this.propMapProperties = propMapProperties;
+    }
+
     @Bean("customerEntityManager")
     public LocalContainerEntityManagerFactoryBean entityManager(@Qualifier("customerDataSource") DataSource dataSource) throws SQLException {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -119,15 +128,6 @@ public class CustomerShardingConfig implements EnvironmentAware {
         Map<String, Object> dataSourceProps = (Map) PropertyUtil.handle(environment, prefix + dataSourceName.trim(), Map.class);
         Preconditions.checkState(!dataSourceProps.isEmpty(), "Wrong datasource properties!");
         return DataSourceUtil.getDataSource(dataSourceProps.get("type").toString(), dataSourceProps);
-    }
-
-    @ConstructorProperties({"shardingProperties", "masterSlaveProperties", "encryptProperties", "propMapProperties"})
-    public CustomerShardingConfig(SpringBootShardingRuleConfigurationProperties shardingProperties, SpringBootMasterSlaveRuleConfigurationProperties masterSlaveProperties,
-                                  SpringBootEncryptRuleConfigurationProperties encryptProperties, SpringBootPropertiesConfigurationProperties propMapProperties) {
-        this.shardingProperties = shardingProperties;
-        this.masterSlaveProperties = masterSlaveProperties;
-        this.encryptProperties = encryptProperties;
-        this.propMapProperties = propMapProperties;
     }
 
     @Bean("customerTransactionManager")
